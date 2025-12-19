@@ -1,0 +1,47 @@
+{
+  "name": "erc20-token-faucet-dapp",
+  "version": "1.0.0",
+  "description": "Complete Full-Stack ERC-20 Token Faucet DApp with rate limiting and wallet integration",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "verify": "hardhat verify",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:serve": "cd frontend && npm run preview",
+    "docker:build": "docker build -f frontend/Dockerfile -t erc20-faucet:latest .",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "lint": "hardhat run scripts/lint.js"
+  },
+  "keywords": [
+    "ethereum",
+    "erc20",
+    "faucet",
+    "dapp",
+    "web3",
+    "solidity",
+    "hardhat"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@openzeppelin/hardhat-upgrades": "^2.0.0",
+    "@openzeppelin/contracts": "^5.0.0",
+    "chai": "^4.3.7",
+    "ethers": "^6.7.1",
+    "hardhat": "^2.17.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "hardhat-verify": "^2.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "ethers": "^6.7.1"
+  }
+}
