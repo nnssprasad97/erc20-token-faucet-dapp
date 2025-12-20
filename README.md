@@ -18,6 +18,15 @@ A production-ready decentralized application (dApp) that implements an ERC-20 to
 - **Comprehensive Testing**: 15+ test cases covering all scenarios
 - **Responsive UI**: Modern React frontend with real-time state updates
 
+## Live Demo
+
+**Try the dApp now**: https://erc20-token-faucet-dapp.vercel.app
+
+Connect your MetaMask wallet, check your token balance, and claim tokens with rate limiting in action.
+
+
+
+
 ## Quick Start
 
 ### Prerequisites
