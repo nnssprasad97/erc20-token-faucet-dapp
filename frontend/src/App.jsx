@@ -43,7 +43,7 @@ function App() {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
         setProvider(provider);
-        
+
         // Get connected accounts
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
@@ -63,12 +63,12 @@ function App() {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      
+
       setAccount(accounts[0]);
       setProvider(provider);
       setSigner(signer);
       setMessage('Wallet connected successfully!');
-      
+
       await updateFaucetData(provider, accounts[0]);
     } catch (error) {
       setMessage('Failed to connect wallet');
@@ -79,24 +79,24 @@ function App() {
     try {
       const faucetAddr = process.env.REACT_APP_FAUCET_ADDRESS || '';
       const tokenAddr = process.env.REACT_APP_TOKEN_ADDRESS || '';
-      
+
       if (faucetAddr && tokenAddr) {
         setFaucetAddress(faucetAddr);
         setTokenAddress(tokenAddr);
-        
+
         // Fetch token balance
         const tokenContract = new ethers.Contract(tokenAddr, TOKEN_ABI, provider);
         const balance = await tokenContract.balanceOf(userAccount);
         const decimals = await tokenContract.decimals();
         setBalance(ethers.formatUnits(balance, decimals));
-        
+
         // Fetch faucet data
         const faucetContract = new ethers.Contract(faucetAddr, FAUCET_ABI, provider);
         const claimAmount = await faucetContract.getClaimAmount();
         const cooldown = await faucetContract.getCooldownPeriod();
         const lastClaim = await faucetContract.getLastClaimTime(userAccount);
         const paused = await faucetContract.isPaused();
-        
+
         setClaimAmount(ethers.formatUnits(claimAmount, decimals));
         setCooldownPeriod(cooldown.toString());
         setLastClaimTime(lastClaim.toString());
@@ -117,13 +117,13 @@ function App() {
     try {
       const faucetAddr = process.env.REACT_APP_FAUCET_ADDRESS;
       const faucetContract = new ethers.Contract(faucetAddr, FAUCET_ABI, signer);
-      
+
       const tx = await faucetContract.requestTokens();
       setMessage('Transaction submitted. Waiting for confirmation...');
-      
+
       const receipt = await tx.wait();
       setMessage('Tokens claimed successfully!');
-      
+
       // Update balance
       await updateFaucetData(provider, account);
     } catch (error) {
@@ -143,7 +143,7 @@ function App() {
 
   // Expose functions for automated evaluation
   useEffect(() => {
-    window.__EVAL__ = {
+    window.EVAL = {
       getProvider: () => provider,
       getSigner: () => signer,
       getAccount: () => account,

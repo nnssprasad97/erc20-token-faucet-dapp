@@ -57,6 +57,14 @@ async function main() {
         JSON.stringify(frontendData, null, 2)
     );
     console.log("Frontend config saved to src/addresses.json");
+
+    // Also write .env file for the actual frontend app
+    const frontendDir = path.join(__dirname, "../frontend");
+    if (fs.existsSync(frontendDir)) {
+        const envContent = `REACT_APP_TOKEN_ADDRESS=${tokenAddress}\nREACT_APP_FAUCET_ADDRESS=${faucetAddress}\n`;
+        fs.writeFileSync(path.join(frontendDir, ".env"), envContent);
+        console.log("Frontend .env saved");
+    }
 }
 
 main().catch((error) => {
