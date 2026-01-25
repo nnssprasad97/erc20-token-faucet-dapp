@@ -1,28 +1,26 @@
 version: '3.8'
 
 services:
+  backend:
+    build: .
+    ports:
+      - "8545:8545"
+    command: sh -c "npx hardhat node & sleep 5 && npx hardhat run scripts/deploy.js --network localhost && wait"
+    networks:
+      - app_network
+
   frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: erc20-faucet-frontend
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public # Assuming simple static file or similar
+    command: echo "Frontend placeholder - User needs to provide frontend code structure in src/" && tail -f /dev/null
+    networks:
+      - app_network
     ports:
       - "3000:3000"
-    environment:
-      - VITE_RPC_URL=${VITE_RPC_URL}
-      - VITE_TOKEN_ADDRESS=${VITE_TOKEN_ADDRESS}
-      - VITE_FAUCET_ADDRESS=${VITE_FAUCET_ADDRESS}
-      - NODE_ENV=production
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-    restart: unless-stopped
-    networks:
-      - erc20-network
 
 networks:
-  erc20-network:
+  app_network:
     driver: bridge
