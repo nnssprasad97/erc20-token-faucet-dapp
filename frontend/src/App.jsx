@@ -77,8 +77,29 @@ function App() {
 
   const updateFaucetData = async (provider, userAccount) => {
     try {
-      const faucetAddr = process.env.REACT_APP_FAUCET_ADDRESS || '';
-      const tokenAddr = process.env.REACT_APP_TOKEN_ADDRESS || '';
+      let faucetAddr = process.env.REACT_APP_FAUCET_ADDRESS || '';
+      let tokenAddr = process.env.REACT_APP_TOKEN_ADDRESS || '';
+
+      // Fallback to addresses.json if env vars are missing
+      if (!faucetAddr || !tokenAddr) {
+        try {
+          // Try fetching from public/addresses.json (if we put it there) or src import if bundled.
+          // Since we are in browser, we can try fetching relative path if served.
+          // Let's assume deploy.js puts it in src aka part of build, or public.
+          // Deploy puts it in `src/addresses.json`.
+          // If built, `src` is gone.
+          // We should ideally put it in `public/addresses.json`.
+          // Let's comment this out and rely on the fact that I'll instruct deploy.js to write to public too?
+          // Or just hardcode for localhost as a fallback?
+          // User suggestion: "Add hardcoded deployment addresses... as fallback"
+          // Let's add hardcoded localhost values that ARE LIKELY to be the same if we run deterministic deployment?
+          // Hardhat deterministic deployment usually gives same addresses.
+          // MyToken: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+          // Faucet: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+          if (!faucetAddr) faucetAddr = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+          if (!tokenAddr) tokenAddr = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+        } catch (e) { console.error(e); }
+      }
 
       if (faucetAddr && tokenAddr) {
         setFaucetAddress(faucetAddr);

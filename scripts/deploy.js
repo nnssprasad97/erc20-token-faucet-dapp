@@ -41,9 +41,9 @@ async function main() {
         // The user says "Connect via library", usually means ABI is needed.
     };
 
-    // We need the ABI. Let's read from artifacts.
-    const TokenArtifact = artifacts.readArtifactSync("MyToken");
-    const FaucetArtifact = artifacts.readArtifactSync("Faucet");
+    // We need the ABI. Let's read from artifacts using hre.artifacts
+    const TokenArtifact = await hre.artifacts.readArtifact("MyToken");
+    const FaucetArtifact = await hre.artifacts.readArtifact("Faucet");
 
     const frontendData = {
         tokenAddress: tokenAddress,
@@ -59,11 +59,12 @@ async function main() {
     console.log("Frontend config saved to src/addresses.json");
 
     // Also write .env file for the actual frontend app
+    // We write to ../frontend/.env relative to scripts/
     const frontendDir = path.join(__dirname, "../frontend");
     if (fs.existsSync(frontendDir)) {
         const envContent = `REACT_APP_TOKEN_ADDRESS=${tokenAddress}\nREACT_APP_FAUCET_ADDRESS=${faucetAddress}\n`;
         fs.writeFileSync(path.join(frontendDir, ".env"), envContent);
-        console.log("Frontend .env saved");
+        console.log("Frontend .env saved at " + path.join(frontendDir, ".env"));
     }
 }
 
