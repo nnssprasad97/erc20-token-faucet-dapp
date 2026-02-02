@@ -4,13 +4,21 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title FaucetToken
+ * @dev ERC20 Token with a built-in minter role for Faucet distribution.
+ */
 contract FaucetToken is ERC20, Ownable {
     uint256 public constant MAX_SUPPLY = 1_000_000 * 10**18;
     address public minter;
 
+    /**
+     * @dev Emitted when the minter address is updated.
+     * @param newMinter The address of the new minter.
+     */
     event MinterSet(address indexed newMinter);
 
-    constructor(address _minter) ERC20("Faucet Token", "FCT") {
+    constructor(address _minter) ERC20("Faucet Token", "FCT") Ownable(msg.sender) {
         require(_minter != address(0), "Invalid minter address");
         minter = _minter;
         emit MinterSet(_minter);

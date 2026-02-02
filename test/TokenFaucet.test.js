@@ -9,20 +9,19 @@ describe("Token and Faucet Integration", function () {
     [owner, addr1, addr2] = await ethers.getSigners();
 
     // Deploy Token
-    Token = await ethers.getContractFactory("MyToken");
-    token = await Token.deploy();
+    Token = await ethers.getContractFactory("FaucetToken");
+    token = await Token.deploy(owner.address);
     await token.waitForDeployment();
     const tokenAddr = await token.getAddress();
 
     // Deploy Faucet
-    Faucet = await ethers.getContractFactory("Faucet");
+    Faucet = await ethers.getContractFactory("TokenFaucet");
     faucet = await Faucet.deploy(tokenAddr);
     await faucet.waitForDeployment();
     const faucetAddr = await faucet.getAddress();
 
-    // Funding logic if required by test or setup
-    // Initial Supply is with owner. owner transfers to faucet.
-    await token.transfer(faucetAddr, ethers.parseEther("1000"));
+    // Set Minter
+    await token.setMinter(faucetAddr);
   });
 
   it("Should deploy contracts and verify addresses", async function () {

@@ -3,8 +3,12 @@ pragma solidity ^0.8.20;
 
 import "./Token.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
+/**
+ * @title TokenFaucet
+ * @dev A faucet contract for dispensing ERC20 tokens with rate limiting (cooldown).
+ */
 contract TokenFaucet is Ownable, ReentrancyGuard {
     FaucetToken public token;
     
@@ -17,10 +21,13 @@ contract TokenFaucet is Ownable, ReentrancyGuard {
     mapping(address => uint256) public lastClaimAt;
     mapping(address => uint256) public totalClaimed;
 
+    /// @dev Emitted when tokens are claimed by a user.
     event TokensClaimed(address indexed user, uint256 amount, uint256 timestamp);
+    
+    /// @dev Emitted when the faucet's paused state changes.
     event FaucetPaused(bool paused);
 
-    constructor(address _tokenAddress) {
+    constructor(address _tokenAddress) Ownable(msg.sender) {
         require(_tokenAddress != address(0), "Invalid token address");
         token = FaucetToken(_tokenAddress);
         paused = false;

@@ -4,29 +4,33 @@ async function main() {
     const [deployer] = await hre.ethers.getSigners();
     console.log("Deploying contracts with the account:", deployer.address);
 
-    // Deploy MyToken
-    const MyToken = await hre.ethers.getContractFactory("MyToken");
-    const myToken = await MyToken.deploy();
+    // Deploy FaucetToken
+    const MyToken = await hre.ethers.getContractFactory("FaucetToken");
+    const myToken = await MyToken.deploy(deployer.address); // Constructor needs minter address
     await myToken.waitForDeployment(); // Hardhat v2.14+ syntax
     const tokenAddress = await myToken.getAddress();
-    console.log("MyToken deployed to:", tokenAddress);
+    console.log("FaucetToken deployed to:", tokenAddress);
 
-    // Deploy Faucet
-    const Faucet = await hre.ethers.getContractFactory("Faucet");
+    // Deploy TokenFaucet
+    const Faucet = await hre.ethers.getContractFactory("TokenFaucet");
     const faucet = await Faucet.deploy(tokenAddress);
     await faucet.waitForDeployment();
     const faucetAddress = await faucet.getAddress();
     console.log("Faucet deployed to:", faucetAddress);
 
-    // Fund Faucet
-    const fundAmount = hre.ethers.parseEther("10000"); // 10,000 tokens
-    await myToken.transfer(faucetAddress, fundAmount);
-    console.log("Transferred 10,000 MTK to Faucet");
+    // Set Faucet as minter
+    await myToken.setMinter(faucetAddress);
+    console.log("Set Faucet as Minter");
+
+    // No need to fund faucet if it mints!
+    // const fundAmount = hre.ethers.parseEther("10000"); // 10,000 tokens
+    // await myToken.transfer(faucetAddress, fundAmount);
+    // console.log("Transferred 10,000 MTK to Faucet");
 
     // Save addresses and ABI to frontend
     const fs = require("fs");
     const path = require("path");
-    const srcDir = path.join(__dirname, "../src");
+    const srcDir = path.join(__dirname, "../frontend/src");
 
     if (!fs.existsSync(srcDir)) {
         fs.mkdirSync(srcDir);
@@ -42,8 +46,9 @@ async function main() {
     };
 
     // We need the ABI. Let's read from artifacts using hre.artifacts
-    const TokenArtifact = await hre.artifacts.readArtifact("MyToken");
-    const FaucetArtifact = await hre.artifacts.readArtifact("Faucet");
+    // We need the ABI. Let's read from artifacts using hre.artifacts
+    const TokenArtifact = await hre.artifacts.readArtifact("FaucetToken");
+    const FaucetArtifact = await hre.artifacts.readArtifact("TokenFaucet");
 
     const frontendData = {
         tokenAddress: tokenAddress,

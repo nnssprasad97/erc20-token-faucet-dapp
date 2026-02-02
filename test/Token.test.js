@@ -8,27 +8,28 @@ describe("MyToken and Faucet Integration", function () {
     beforeEach(async function () {
         [owner, addr1, addr2] = await ethers.getSigners();
 
-        MyToken = await ethers.getContractFactory("MyToken");
-        myToken = await MyToken.deploy(); // Deploys with 1M supply to owner
+        MyToken = await ethers.getContractFactory("FaucetToken");
+        myToken = await MyToken.deploy(owner.address); // Deploys with 1M supply to owner
 
-        Faucet = await ethers.getContractFactory("Faucet");
+        Faucet = await ethers.getContractFactory("TokenFaucet");
         faucet = await Faucet.deploy(await myToken.getAddress());
 
-        // Fund the faucet with 1000 tokens
-        await myToken.transfer(await faucet.getAddress(), ethers.parseEther("1000"));
+        // Set Faucet as minter
+        await myToken.setMinter(await faucet.getAddress());
+
+        // Remove funding since faucet mints
+        // await myToken.transfer(await faucet.getAddress(), ethers.parseEther("1000"));
     });
 
     describe("Token Deployment", function () {
-        it("Should assign the total supply to the owner", async function () {
+        it("Should have 0 initial supply", async function () {
             const ownerBalance = await myToken.balanceOf(owner.address);
-            const initialSupply = ethers.parseEther("1000000");
-            // Owner transferred 1000 to faucet, so balance should be 1M - 1000
-            expect(ownerBalance).to.equal(initialSupply - ethers.parseEther("1000"));
+            expect(ownerBalance).to.equal(0);
         });
 
         it("Should have correct metadata", async function () {
-            expect(await myToken.name()).to.equal("MyToken");
-            expect(await myToken.symbol()).to.equal("MTK");
+            expect(await myToken.name()).to.equal("Faucet Token");
+            expect(await myToken.symbol()).to.equal("FCT");
         });
     });
 
@@ -84,14 +85,6 @@ describe("MyToken and Faucet Integration", function () {
                 .to.be.revertedWithCustomError(faucet, "OwnableUnauthorizedAccount");
         });
 
-        it("Should emit Deposit event (if implemented) or just check transfer", async function () {
-            // Our Faucet doesn't have a specific deposit function, just receives tokens. 
-            // But if we had a specific function we would test it.
-            // We'll test owner withdraw function instead.
-            const faucetBalance = await myToken.balanceOf(await faucet.getAddress());
-            await faucet.withdraw();
-            expect(await myToken.balanceOf(await faucet.getAddress())).to.equal(0);
-            expect(await myToken.balanceOf(owner.address)).to.be.closeTo(ethers.parseEther("1000000"), ethers.parseEther("1"));
-        });
+
     });
 });
