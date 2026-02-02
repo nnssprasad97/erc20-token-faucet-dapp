@@ -151,6 +151,45 @@ Owning tokens ≠ being allowed to spend them.This distinction is the base of **
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   MyToken/  │── contracts/  │   └── MyToken.sol  │── README.md  │── package.json (optional for Hardhat/Foundry)  │── scripts/ (optional)  └── tests/ (optional)   `
 
+**🏗️ Architecture Diagram**
+--------------------------
+```mermaid
+graph LR
+    User[User] -->|Connect| MetaMask[MetaMask]
+    MetaMask -->|Send TX| Faucet[TokenFaucet.sol]
+    Faucet -->|Transfer Token| Token[Token.sol]
+    Faucet -->|Emit Event| Frontend[React Frontend]
+    Frontend -->|Update UI| User
+```
+
+**📹 Video Demonstration**
+-------------------------
+[Watch the complete user journey here](https://youtube.com/your-video-link)
+
+**📸 Screenshots**
+------------------
+
+### Wallet Connection
+![Wallet Connection](./screenshots/01-wallet-connection.png)
+
+### Token Balance
+![Token Balance](./screenshots/02-balance-display.png)
+
+### Successful Claim
+![Successful Claim](./screenshots/03-successful-claim.png)
+
+### Error States
+![Error States](./screenshots/04-error-states.png)
+
+### Transaction Confirmation
+![Transaction Confirmation](./screenshots/05-transaction-confirmation.png)
+
+**🚀 Docker Deployment**
+------------------------
+1. Ensure Docker Desktop is running.
+2. Run `docker-compose up --build` in the root directory.
+3. Access the frontend at `http://localhost:3000`.
+
 **🎯 Final Notes**
 ------------------
 
