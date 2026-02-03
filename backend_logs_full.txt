@@ -1,0 +1,7 @@
+﻿
+
+
+
+
+Downloading compiler 0.8.26
+Compiled 11 Solidity files successfully (evm target: paris).

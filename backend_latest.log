@@ -1,0 +1,23 @@
+WARNING: You are currently using Node.js v18.20.8, which is not supported by Hardhat. This can lead to unexpected behavior. See https://v2.hardhat.org/nodejs-versions
+
+
+Downloading compiler 0.8.26
+
+Error HH502: Couldn't download compiler version list. Please check your internet connection and try again.
+HardhatError: HH502: Couldn't download compiler version list. Please check your internet connection and try again.
+    at /app/node_modules/hardhat/src/internal/solidity/compiler/downloader.ts:178:17
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MultiProcessMutex._executeFunctionAndReleaseMutex (/app/node_modules/hardhat/src/internal/util/multi-process-mutex.ts:77:19)
+    at CompilerDownloader.downloadCompiler (/app/node_modules/hardhat/src/internal/solidity/compiler/downloader.ts:163:5)
+    at SimpleTaskDefinition.action (/app/node_modules/hardhat/src/builtin-tasks/compile.ts:588:7)
+    at Environment._runTaskDefinition (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:351:14)
+    at Environment.run (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:184:14)
+    at SimpleTaskDefinition.action (/app/node_modules/hardhat/src/builtin-tasks/compile.ts:740:36)
+    at Environment._runTaskDefinition (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:351:14)
+    at Environment.run (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:184:14)
+
+    Caused by: ConnectTimeoutError: Connect Timeout Error
+        at onConnectTimeout (/app/node_modules/undici/lib/core/connect.js:186:24)
+        at /app/node_modules/undici/lib/core/connect.js:133:46
+        at Immediate._onImmediate (/app/node_modules/undici/lib/core/connect.js:174:9)
+        at processImmediate (node:internal/timers:476:21)

@@ -1,0 +1,37 @@
+WARNING: You are currently using Node.js v16.20.2, which is not supported by Hardhat. This can lead to unexpected behavior. See https://v2.hardhat.org/nodejs-versions
+
+
+
+Error HH604: Error running JSON-RPC server: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by /app/node_modules/@nomicfoundation/edr-linux-x64-gnu/edr.linux-x64-gnu.node)
+HardhatError: HH604: Error running JSON-RPC server: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by /app/node_modules/@nomicfoundation/edr-linux-x64-gnu/edr.linux-x64-gnu.node)
+    at SimpleTaskDefinition.action (/app/node_modules/hardhat/src/builtin-tasks/node.ts:372:17)
+    at Environment._runTaskDefinition (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:351:14)
+    at Environment.run (/app/node_modules/hardhat/src/internal/core/runtime-environment.ts:184:14)
+    at main (/app/node_modules/hardhat/src/internal/cli/cli.ts:325:7)
+
+    Caused by: Error: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by /app/node_modules/@nomicfoundation/edr-linux-x64-gnu/edr.linux-x64-gnu.node)
+        at Object.Module._extensions..node (node:internal/modules/cjs/loader:1282:18)
+        at Module.load (node:internal/modules/cjs/loader:1076:32)
+        at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+        at Module.require (node:internal/modules/cjs/loader:1100:19)
+        at require (node:internal/modules/cjs/helpers:119:18)
+        at Object.<anonymous> (/app/node_modules/@nomicfoundation/edr/index.js:190:31)
+        at Module._compile (node:internal/modules/cjs/loader:1198:14)
+        at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+        at Module.load (node:internal/modules/cjs/loader:1076:32)
+        at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+WARNING: You are currently using Node.js v16.20.2, which is not supported by Hardhat. This can lead to unexpected behavior. See https://v2.hardhat.org/nodejs-versions
+
+
+Downloading compiler 0.8.26
+Compiled 11 Solidity files successfully (evm target: paris).
+HardhatError: HH108: Cannot connect to the network localhost.
+Please make sure your node is running, and check your internet connection and networks config
+    at HttpProvider._fetchJsonRpcResponse (/app/node_modules/hardhat/src/internal/core/providers/http.ts:249:15)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at HttpProvider.request (/app/node_modules/hardhat/src/internal/core/providers/http.ts:104:29)
+    at getSigners (/app/node_modules/@nomicfoundation/hardhat-ethers/src/internal/helpers.ts:46:16)
+    at main (/app/scripts/deploy.js:4:24)
+
+    Caused by: Error: connect ECONNREFUSED 127.0.0.1:8545
+        at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1278:16)
