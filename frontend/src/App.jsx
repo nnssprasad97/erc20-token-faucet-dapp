@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import addressData from './addresses.json';
-import TokenFaucetABI from '../../backend/artifacts/contracts/TokenFaucet.sol/TokenFaucet.json';
-// Note: In Docker, we map backend artifacts to be accessible here.
-// Ideally, copy ABI JSONs to frontend/src for cleaner production builds.
+
+// For this setup, we use a hardcoded ABI for simplicity
+
 
 // For this setup, we'll use a hardcoded ABI for simplicity if the artifact mapping is tricky
 const FAUCET_ABI = [

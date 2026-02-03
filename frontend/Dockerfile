@@ -7,11 +7,5 @@ RUN npm install
 
 COPY . .
 
-# Build the React app
-RUN npm run build
-
-# Install serve to run the static files
-RUN npm install -g serve
-
-# Start the server using 'npx' to find the binary correctly
-CMD ["npx", "serve", "-s", "dist", "-l", "3000"]
+# We use "dev" mode so it can read addresses.json as soon as the backend writes it
+CMD ["npm", "run", "dev", "--", "--host"]
